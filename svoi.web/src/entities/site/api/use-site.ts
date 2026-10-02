@@ -6,6 +6,6 @@ import { fetchSite, siteQueryKey } from "./fetch-site";
 export function useSite() {
   return useQuery({
     queryKey: siteQueryKey,
-    queryFn: fetchSite,
+    queryFn: () => fetchSite(),
   });
 }

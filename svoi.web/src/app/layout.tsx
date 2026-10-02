@@ -37,9 +37,10 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const queryClient = getQueryClient();
+  const siteApiUrl = process.env.API_URL_INTERNAL;
   await queryClient.prefetchQuery({
     queryKey: siteQueryKey,
-    queryFn: fetchSite,
+    queryFn: () => fetchSite(siteApiUrl),
   });
 
   return (

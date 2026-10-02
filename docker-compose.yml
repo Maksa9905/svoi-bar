@@ -34,8 +34,20 @@ services:
       context: ./svoi.web
       args:
         NEXT_PUBLIC_API_URL: http://localhost:3001
+    environment:
+      API_URL_INTERNAL: http://backend:3001
     ports:
       - "3000:3000"
+    depends_on:
+      - backend
+
+  admin:
+    build:
+      context: ./svoi.admin
+      args:
+        VITE_API_URL: http://localhost:3001
+    ports:
+      - "5173:80"
     depends_on:
       - backend
 
