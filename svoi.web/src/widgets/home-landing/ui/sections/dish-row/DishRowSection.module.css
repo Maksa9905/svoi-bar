@@ -1,0 +1,58 @@
+.section {
+  background: var(--wood);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  overflow-x: clip;
+}
+
+.footer {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+}
+
+.mascot {
+  position: absolute;
+  right: -50px;
+  bottom: 0;
+  z-index: 1;
+  width: 200px;
+  height: auto;
+  pointer-events: none;
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.dishes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.photo {
+  height: 240px;
+}
+
+.dish h3 {
+  margin-top: 12px;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 500;
+  font-size: 22px;
+}
+
+@media (min-width: 900px) {
+  .dishes {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .photo {
+    height: 360px;
+  }
+
+  .mascot {
+    right: -100px;
+    width: 260px;
+  }
+}

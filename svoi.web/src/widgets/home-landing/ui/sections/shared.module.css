@@ -1,0 +1,84 @@
+.section {
+  padding: 72px var(--page);
+}
+
+.eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.lime {
+  color: var(--lime);
+}
+
+.pink {
+  color: var(--pink);
+}
+
+.yellow {
+  color: var(--yellow);
+}
+
+.red {
+  color: var(--red);
+}
+
+.title {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 500;
+  line-height: 0.94;
+  text-transform: uppercase;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.heading .title {
+  font-size: clamp(40px, 7vw, 76px);
+}
+
+.note {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.muted {
+  color: var(--muted);
+  line-height: 1.65;
+  font-size: 16px;
+}
+
+.lead {
+  max-width: 480px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+@media (min-width: 900px) {
+  .heading {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .heading .note {
+    max-width: 360px;
+    text-align: right;
+  }
+
+  .lead {
+    font-size: 19px;
+  }
+}

@@ -1,0 +1,49 @@
+.section {
+  background: var(--surface);
+  display: grid;
+  gap: 32px;
+}
+
+.title {
+  font-size: clamp(48px, 10vw, 82px);
+}
+
+.city {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.detail {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+}
+
+.detail span {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+@media (min-width: 900px) {
+  .section {
+    grid-template-columns: 1fr 420px;
+    align-items: center;
+    padding-block: 100px;
+  }
+}

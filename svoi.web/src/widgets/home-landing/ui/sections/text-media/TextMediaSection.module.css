@@ -1,0 +1,17 @@
+.section {
+  display: grid;
+  gap: 32px;
+}
+
+.title {
+  font-size: clamp(40px, 8vw, 68px);
+}
+
+@media (min-width: 900px) {
+  .section {
+    grid-template-columns: 520px 1fr;
+    align-items: center;
+    gap: 64px;
+    padding-block: 100px;
+  }
+}

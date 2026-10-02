@@ -1,0 +1,42 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.mosaic {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.foot {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.link {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+@media (min-width: 900px) {
+  .mosaic {
+    grid-template-columns: 1.1fr 390px 1.1fr;
+    height: 860px;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}

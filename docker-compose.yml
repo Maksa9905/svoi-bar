@@ -1,0 +1,42 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: svoi
+      POSTGRES_PASSWORD: svoi
+      POSTGRES_DB: svoi
+    ports:
+      - "5433:5432"
+    volumes:
+      - svoi_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U svoi -d svoi"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./svoi.back
+    environment:
+      DATABASE_URL: postgresql://svoi:svoi@postgres:5432/svoi
+      JWT_ACCESS_SECRET: dev-access-secret-change-me
+      PORT: "3001"
+    ports:
+      - "3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./svoi.web
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:3001
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  svoi_pg:

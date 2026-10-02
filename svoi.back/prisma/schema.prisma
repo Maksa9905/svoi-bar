@@ -1,0 +1,187 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["content", "booking"]
+}
+
+model Media {
+  id             String        @id @default(uuid())
+  storageKey     String        @unique
+  mimeType       String
+  alt            String        @default("")
+  width          Int?
+  height         Int?
+  createdAt      DateTime      @default(now())
+  menuItems      MenuItem[]
+  galleryPhotos  GalleryItem[] @relation("GalleryPhoto")
+  galleryMascots GalleryItem[] @relation("GalleryMascot")
+
+  @@map("media")
+  @@schema("content")
+}
+
+model Section {
+  id        String    @id @default(uuid())
+  page      String    @default("home")
+  type      String
+  sortOrder Int
+  anchor    String?
+  payload   Json
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  navLinks  NavLink[]
+
+  @@unique([page, anchor])
+  @@index([page, sortOrder])
+  @@map("sections")
+  @@schema("content")
+}
+
+model NavLink {
+  id         String   @id @default(uuid())
+  placement  String
+  label      String
+  sortOrder  Int
+  targetType String
+  sectionId  String?
+  section    Section? @relation(fields: [sectionId], references: [id], onDelete: SetNull)
+  pagePath   String?
+  action     String?
+
+  @@index([placement, sortOrder])
+  @@map("nav_links")
+  @@schema("content")
+}
+
+model MenuFilter {
+  id        String     @id @default(uuid())
+  slug      String     @unique
+  label     String
+  sortOrder Int
+  items     MenuItem[]
+
+  @@map("menu_filters")
+  @@schema("content")
+}
+
+model MenuGroup {
+  id        String     @id @default(uuid())
+  title     String
+  sortOrder Int
+  items     MenuItem[]
+
+  @@map("menu_groups")
+  @@schema("content")
+}
+
+model MenuItem {
+  id          String     @id @default(uuid())
+  filterId    String
+  filter      MenuFilter @relation(fields: [filterId], references: [id], onDelete: Restrict)
+  groupId     String
+  group       MenuGroup  @relation(fields: [groupId], references: [id], onDelete: Restrict)
+  mediaId     String
+  media       Media      @relation(fields: [mediaId], references: [id], onDelete: Restrict)
+  title       String
+  description String
+  price       String
+  accent      String
+  alt         String
+  sortOrder   Int
+
+  @@index([groupId, sortOrder])
+  @@index([filterId, sortOrder])
+  @@map("menu_items")
+  @@schema("content")
+}
+
+model GalleryItem {
+  id            String  @id @default(uuid())
+  mediaId       String
+  media         Media   @relation("GalleryPhoto", fields: [mediaId], references: [id], onDelete: Restrict)
+  caption       String
+  alt           String
+  height        Int
+  sortOrder     Int
+  showOnHome    Boolean @default(false)
+  homeSortOrder Int?
+  mascotMediaId String?
+  mascot        Media?  @relation("GalleryMascot", fields: [mascotMediaId], references: [id], onDelete: Restrict)
+  mascotSide    String?
+
+  @@index([sortOrder])
+  @@index([showOnHome, homeSortOrder])
+  @@map("gallery_items")
+  @@schema("content")
+}
+
+model AdminUser {
+  id           String         @id @default(uuid())
+  login        String         @unique
+  passwordHash String
+  createdAt    DateTime       @default(now())
+  refreshTokens RefreshToken[]
+
+  @@map("admin_users")
+  @@schema("content")
+}
+
+model RefreshToken {
+  id        String    @id @default(uuid())
+  userId    String
+  user      AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@map("refresh_tokens")
+  @@schema("content")
+}
+
+model Venue {
+  id         String @id @default("venue")
+  name       String
+  city       String
+  descriptor String
+  phone      String
+  address    String
+  hours      String
+  lat        Float
+  lon        Float
+  legal      String
+
+  @@map("venue")
+  @@schema("content")
+}
+
+model Booking {
+  id        String        @id @default(uuid())
+  requestId String        @unique
+  phone     String
+  guests    Int
+  date      String
+  time      String
+  name      String?
+  comment   String?
+  status    BookingStatus @default(NEW)
+  createdAt DateTime      @default(now())
+
+  @@index([status, createdAt])
+  @@map("bookings")
+  @@schema("booking")
+}
+
+enum BookingStatus {
+  NEW
+  CONFIRMED
+  CANCELLED
+  NO_SHOW
+
+  @@map("booking_status")
+  @@schema("booking")
+}

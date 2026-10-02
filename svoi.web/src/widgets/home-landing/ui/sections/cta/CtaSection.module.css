@@ -1,0 +1,46 @@
+.section {
+  background: var(--purple);
+  color: var(--black);
+  display: grid;
+  gap: 24px;
+}
+
+.title {
+  font-size: clamp(56px, 12vw, 100px);
+  line-height: 0.88;
+}
+
+.stars {
+  font-family: var(--font-display), sans-serif;
+  letter-spacing: 0.2em;
+  color: var(--black);
+  font-size: 22px;
+  opacity: 0.3;
+}
+
+.lead {
+  font-size: 19px;
+}
+
+.art {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.mascot {
+  width: min(360px, 80%);
+  height: auto;
+}
+
+@media (min-width: 900px) {
+  .section {
+    grid-template-columns: 1fr 430px;
+    align-items: center;
+    padding-block: 70px;
+  }
+
+  .mascot {
+    width: 420px;
+  }
+}

@@ -1,0 +1,44 @@
+.section {
+  background: var(--surface);
+  display: grid;
+  gap: 28px;
+  padding: 0;
+}
+
+.copy {
+  padding: 48px var(--page) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.title {
+  font-size: clamp(40px, 8vw, 66px);
+}
+
+.mascot {
+  width: min(360px, 100%);
+  height: auto;
+}
+
+.photo {
+  height: 320px;
+  border-radius: 0;
+}
+
+@media (min-width: 900px) {
+  .section {
+    grid-template-columns: minmax(0, 560px) minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .copy {
+    padding: 72px;
+    justify-content: space-between;
+  }
+
+  .photo {
+    height: auto;
+    min-height: 100%;
+  }
+}

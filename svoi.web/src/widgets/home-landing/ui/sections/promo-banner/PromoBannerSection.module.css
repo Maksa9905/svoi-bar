@@ -1,0 +1,40 @@
+.section {
+  background: var(--yellow);
+  color: var(--black);
+  display: grid;
+  gap: 24px;
+}
+
+.title {
+  font-size: clamp(42px, 8vw, 92px);
+  line-height: 0.86;
+}
+
+.schedule {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  align-items: baseline;
+  font-family: var(--font-display), sans-serif;
+  font-size: 32px;
+}
+
+.days {
+  font-family: var(--font-body), sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.image {
+  width: min(330px, 100%);
+  height: auto;
+  justify-self: center;
+}
+
+@media (min-width: 900px) {
+  .section {
+    grid-template-columns: 1fr 330px;
+    align-items: center;
+    padding-block: 56px;
+  }
+}

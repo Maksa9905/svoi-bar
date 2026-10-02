@@ -1,0 +1,85 @@
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(9, 9, 9, 0.86);
+  display: grid;
+  place-items: center;
+  padding: 40px 20px;
+}
+
+.viewer {
+  width: min(920px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.counter {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.close,
+.nav {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: rgba(24, 24, 24, 0.91);
+  color: var(--white);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.frame {
+  position: relative;
+  height: min(68vh, 620px);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid rgba(242, 240, 235, 0.13);
+  background: var(--card);
+  box-shadow: 0 28px 40px rgba(0, 0, 0, 0.8);
+}
+
+.image {
+  object-fit: contain;
+}
+
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.prev {
+  left: 10px;
+}
+
+.next {
+  right: 10px;
+}
+
+.caption {
+  font-size: 14px;
+}
+
+.hint {
+  margin-top: 7px;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 899px) {
+  .frame {
+    height: 260px;
+  }
+}

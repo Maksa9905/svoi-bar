@@ -1,0 +1,16 @@
+---
+description: Проверки типов, линт и unit-тесты
+globs: src/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Проверки
+
+Перед завершением задачи прогоняй `pnpm typecheck`, `pnpm lint` и `pnpm test`. CI делает то же в `.github/workflows/ci.yml`.
+
+Покрывай unit-тестами схемы Zod, чистые функции и поведение формы. Компонентный тест рендерится через Testing Library.
+
+```ts
+// ✅ схема отклоняет неполный телефон
+expect(bookingRequestSchema.safeParse({ ...valid, phone: "+7" }).success).toBe(false);
+```

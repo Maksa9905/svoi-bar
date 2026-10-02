@@ -1,0 +1,28 @@
+---
+description: Стек и Feature Sliced Design для svoi.web
+alwaysApply: true
+---
+
+# Архитектура
+
+Next.js 16, React 19, TypeScript, pnpm, CSS Modules. App Router в `src/app`.
+
+Слои FSD, импорт только вниз:
+
+- `src/app` — маршруты, API, провайдеры
+- `src/views` — сборка экрана (слой pages; имя `pages` занято Next.js)
+- `src/widgets` — крупные блоки экрана
+- `src/features` — действия: бронь, фильтр меню, лайтбокс
+- `src/entities` — меню, галерея, заявка
+- `src/shared` — UI, конфиг, стор, утилиты
+
+MobX (`uiStore`) — только клиентский UI: модалка, меню, категория, лайтбокс.
+TanStack Query читает публичный `GET /api/site` бэкенда и шлёт бронь в `POST /api/bookings`. Zod проверяет ответ на границе. Локальных каталогов контента нет.
+Формы — React Hook Form + Zod. Стили — CSS Modules, без Tailwind.
+
+```tsx
+// ❌ виджет импортирует другой виджет
+import { SiteHeader } from "@/widgets/site-header";
+
+// ✅ экран или app собирает виджеты
+```

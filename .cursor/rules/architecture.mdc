@@ -1,0 +1,15 @@
+---
+description: Стек и Feature Sliced Design для svoi.web
+alwaysApply: true
+---
+
+# Архитектура
+
+Приложение в `svoi.web`: Next.js 16, React 19, TypeScript, pnpm, CSS Modules.
+
+Слои FSD, импорт только вниз: `app` → `views` → `widgets` → `features` → `entities` → `shared`.
+Слой экранов называется `views`, потому что `pages` занят Next.js.
+
+MobX — клиентский UI. TanStack Query — меню, галерея, mutation брони. Zod — граница данных. Формы — React Hook Form. Стили — CSS Modules.
+
+Виджет не импортирует другой виджет. Сборку экрана делает `app` или `views`.

@@ -1,0 +1,49 @@
+.section {
+  display: grid;
+  padding: 0;
+}
+
+.photo {
+  width: 100%;
+  min-width: 0;
+  height: 280px;
+  border-radius: 0;
+}
+
+.copy {
+  background: var(--wood);
+  padding: 48px var(--page);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  min-height: 420px;
+  min-width: 0;
+}
+
+.title {
+  font-size: clamp(48px, 8vw, 72px);
+}
+
+.price {
+  color: var(--lime);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(40px, 6vw, 62px);
+  font-weight: 500;
+}
+
+.footnote {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+@media (min-width: 900px) {
+  .section {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    min-height: 650px;
+  }
+
+  .photo {
+    height: 100%;
+  }
+}

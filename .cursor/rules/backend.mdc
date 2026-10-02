@@ -1,0 +1,10 @@
+---
+description: CMS svoi.back
+alwaysApply: true
+---
+
+# svoi.back
+
+CMS живёт в `svoi.back`: NestJS, Prisma, один PostgreSQL, схемы `content` и `booking`.
+
+Секции главной — только типы из `section.registry.ts`. Меню, галерея и карточка заведения — отдельные сущности. Запись `/api/admin` закрыта access JWT (`POST /api/auth/login`, refresh через `POST /api/auth/refresh`). Сайт пока читает свой статический контент, контракт для него — `GET /api/site`.

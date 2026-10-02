@@ -1,0 +1,21 @@
+---
+description: Границы CMS svoi.back
+alwaysApply: true
+---
+
+# svoi.back
+
+NestJS и один PostgreSQL со схемами `content` и `booking`. Картинки — файлы, в БД только `media`.
+
+- Секции главной — типизированные блоки из `section.registry.ts`. Новый визуальный тип добавляется туда, не свободным JSON.
+- Меню, галерея и `venue` — отдельные сущности. Витрина главной читает галерею с `showOnHome`.
+- Запись только под `AdminGuard`: `Authorization: Bearer` с access JWT. Логин `POST /api/auth/login`, обновление пары `POST /api/auth/refresh`. Публично: `GET /api/site`, `POST /api/bookings`.
+- Удаление секции обнуляет пункт шапки. Удаление media запрещено, пока на него есть ссылка.
+
+```ts
+// ❌ принять произвольный type секции
+await prisma.section.create({ data: { type: body.type, payload: body.payload } });
+
+// ✅ прогнать через реестр
+const parsed = parseSectionPayload(body.type, body.payload);
+```
