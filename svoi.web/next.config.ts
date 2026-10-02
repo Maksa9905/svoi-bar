@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
         port: "3001",
         pathname: "/api/media/**",
       },
+      {
+        protocol: "https",
+        hostname: "s3.regru.cloud",
+        pathname: "/**",
+      },
     ],
   },
 };

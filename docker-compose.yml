@@ -18,9 +18,10 @@ services:
   backend:
     build:
       context: ./svoi.back
+    env_file:
+      - ./svoi.back/.env
     environment:
       DATABASE_URL: postgresql://svoi:svoi@postgres:5432/svoi
-      JWT_ACCESS_SECRET: dev-access-secret-change-me
       PORT: "3001"
     ports:
       - "3001:3001"
