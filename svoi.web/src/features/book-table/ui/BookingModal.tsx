@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { observer } from "mobx-react-lite";
-import { useEffect } from "react";
+import { useEffect, type MouseEvent } from "react";
 import { useForm } from "react-hook-form";
 import { bookingRequestSchema, type BookingRequest } from "@/entities/booking";
 import { useSite } from "@/entities/site";
@@ -19,6 +19,39 @@ const defaultValues: BookingRequest = {
   phone: "",
   name: "",
 };
+
+function openPickerFromLabel(event: MouseEvent<HTMLLabelElement>) {
+  const input = event.currentTarget.querySelector("input");
+  if (!(input instanceof HTMLInputElement) || event.target === input) {
+    return;
+  }
+  if (typeof input.showPicker !== "function") {
+    return;
+  }
+
+  event.preventDefault();
+  try {
+    input.showPicker();
+  } catch {
+    input.focus();
+  }
+}
+
+function openNativePicker(event: MouseEvent<HTMLInputElement>) {
+  const input = event.currentTarget;
+  if (typeof input.showPicker !== "function") {
+    return;
+  }
+
+  event.preventDefault();
+  event.stopPropagation();
+
+  try {
+    input.showPicker();
+  } catch {
+    input.focus();
+  }
+}
 
 function formatDisplayDate(value: string) {
   if (!value) {
@@ -150,21 +183,33 @@ export const BookingModal = observer(function BookingModal() {
               </div>
 
               <div className={styles.row}>
-                <label className={styles.field}>
+                <label className={styles.field} onClick={openPickerFromLabel}>
                   <span className={styles.label}>КОГДА?</span>
                   <span className={`${styles.control} ${styles.dateWrap}`}>
                     <span className={styles.value}>{formatDisplayDate(date)}</span>
                     <img src="/icons/calendar.svg" alt="" width={18} height={18} />
-                    <input className={styles.native} type="date" {...register("date")} />
+                    <input
+                      className={styles.native}
+                      type="date"
+                      aria-label="Дата"
+                      {...register("date")}
+                      onClick={openNativePicker}
+                    />
                   </span>
                   {errors.date ? <span className={styles.error}>{errors.date.message}</span> : null}
                 </label>
-                <label className={styles.field}>
+                <label className={styles.field} onClick={openPickerFromLabel}>
                   <span className={styles.label}>ВО СКОЛЬКО?</span>
                   <span className={`${styles.control} ${styles.timeWrap}`}>
                     <span className={styles.value}>{time || "Выберите время"}</span>
                     <img src="/icons/clock.svg" alt="" width={18} height={18} />
-                    <input className={styles.native} type="time" {...register("time")} />
+                    <input
+                      className={styles.native}
+                      type="time"
+                      aria-label="Время"
+                      {...register("time")}
+                      onClick={openNativePicker}
+                    />
                   </span>
                   {errors.time ? <span className={styles.error}>{errors.time.message}</span> : null}
                 </label>

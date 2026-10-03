@@ -3,7 +3,7 @@
 }
 
 @media (max-width: 899px) {
-  .bar {
+  .bar.visible {
     display: block;
     position: fixed;
     left: 0;

@@ -18,7 +18,7 @@ export function HeroSection({ site, section }: SectionProps) {
   const mascot = mediaSrc(site, data.mascotMediaId);
 
   return (
-    <section className={styles.hero}>
+    <section className={styles.hero} data-hero>
       {mobile ? (
         <div className={`${styles.media} ${styles.mobileOnly}`}>
           <Image
