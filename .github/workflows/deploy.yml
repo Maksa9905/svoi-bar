@@ -71,5 +71,6 @@ jobs:
             "set -eu
              printf '%s' '$GHCR_TOKEN' | docker login ghcr.io -u '$GHCR_USER' --password-stdin
              cd /root/svoi-bar
+             git pull --ff-only origin main
              GHCR_OWNER='$GHCR_OWNER' IMAGE_TAG='$IMAGE_TAG' docker compose -f docker-compose.yml -f docker-compose.prod.yml pull
              GHCR_OWNER='$GHCR_OWNER' IMAGE_TAG='$IMAGE_TAG' docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --no-build"
