@@ -3,11 +3,12 @@ set -eu
 
 echo "Перед этим поднимите стек, чтобы nginx слушал 80 порт."
 
-if [ -f .env ]; then
-  set -a
-  # shellcheck disable=SC1091
-  . ./.env
-  set +a
+if [ -z "${CERTBOT_EMAIL:-}" ] && [ -f .env ]; then
+  CERTBOT_EMAIL=$(grep -E '^CERTBOT_EMAIL=' .env | head -n 1 | cut -d= -f2- | tr -d '\r')
+  CERTBOT_EMAIL=${CERTBOT_EMAIL#\"}
+  CERTBOT_EMAIL=${CERTBOT_EMAIL%\"}
+  CERTBOT_EMAIL=${CERTBOT_EMAIL#\'}
+  CERTBOT_EMAIL=${CERTBOT_EMAIL%\'}
 fi
 
 if [ -z "${CERTBOT_EMAIL:-}" ]; then
