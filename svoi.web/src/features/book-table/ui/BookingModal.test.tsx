@@ -34,8 +34,8 @@ describe("BookingModal", () => {
     const user = userEvent.setup();
     renderModal();
 
-    const date = screen.getByLabelText("Дата");
-    const time = screen.getByLabelText("Время");
+    const date = screen.getByLabelText<HTMLInputElement>("Дата");
+    const time = screen.getByLabelText<HTMLInputElement>("Время");
     const showDate = vi.fn();
     const showTime = vi.fn();
     date.showPicker = showDate;
