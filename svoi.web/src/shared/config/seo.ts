@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const siteUrl = "https://svoi.bar";
+export const siteUrl = "https://svoi.hakolr.dev";
 export const siteName = "СВОИ";
 export const siteTitle = "СВОИ — кальян-бар в Нижнем Новгороде";
 export const siteDescription =

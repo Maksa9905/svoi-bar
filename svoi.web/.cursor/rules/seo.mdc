@@ -5,7 +5,7 @@ alwaysApply: true
 
 # SEO
 
-Канонические адреса, Open Graph, Twitter Card, robots, sitemap и JSON-LD живут в `src/shared/config/seo.ts`. Новая публичная страница задаёт метаданные через `pageMetadata({ title, description, path })`.
+Канонические адреса, Open Graph, Twitter Card, robots, sitemap и JSON-LD живут в `src/shared/config/seo.ts`. Публичный адрес — `https://svoi.hakolr.dev` (`siteUrl`). Новая публичная страница задаёт метаданные через `pageMetadata({ title, description, path })`.
 
 В схему заведения попадают только заполненные контакты. Строки вроде `[АДРЕС]` и `[ТЕЛЕФОН]` в JSON-LD не попадают.
 

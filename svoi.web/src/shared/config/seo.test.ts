@@ -53,8 +53,8 @@ describe("seo", () => {
     ]);
 
     expect(data.itemListElement.map((item) => item.item)).toEqual([
-      "https://svoi.bar",
-      "https://svoi.bar/menu",
+      "https://svoi.hakolr.dev",
+      "https://svoi.hakolr.dev/menu",
     ]);
   });
 });
