@@ -1,11 +1,23 @@
-import type { Metadata } from "next";
 import { MenuPage } from "@/views/menu";
+import { breadcrumbJsonLd, pageMetadata } from "@/shared/config/seo";
+import { JsonLd } from "../ui/JsonLd";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Меню",
   description: "Кальян, закуски, горячее и бар. Выбирай, что сегодня будем.",
-};
+  path: "/menu",
+});
 
 export default function Page() {
-  return <MenuPage />;
+  return (
+    <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "СВОИ", path: "/" },
+          { name: "Меню", path: "/menu" },
+        ])}
+      />
+      <MenuPage />
+    </>
+  );
 }

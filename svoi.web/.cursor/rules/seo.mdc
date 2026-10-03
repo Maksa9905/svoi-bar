@@ -1,0 +1,20 @@
+---
+description: Метаданные, фавикон и схема сайта СВОИ
+alwaysApply: true
+---
+
+# SEO
+
+Канонические адреса, Open Graph, Twitter Card, robots, sitemap и JSON-LD живут в `src/shared/config/seo.ts`. Новая публичная страница задаёт метаданные через `pageMetadata({ title, description, path })`.
+
+В схему заведения попадают только заполненные контакты. Строки вроде `[АДРЕС]` и `[ТЕЛЕФОН]` в JSON-LD не попадают.
+
+Фавикон сайта — белая марка на `#090909`, файлы в `public/brand`. Админка использует чёрную марку на белом и закрыта от индексации.
+
+```ts
+// ✅ страница сама называет канонический путь
+export const metadata = pageMetadata({ title: "Меню", description, path: "/menu" });
+
+// ❌ плейсхолдер контакта в JSON-LD
+telephone: "[ТЕЛЕФОН]";
+```

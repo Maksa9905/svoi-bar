@@ -1,10 +1,12 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import type { Metadata } from "next";
+import type { Viewport } from "next";
 import type { ReactNode } from "react";
 import { Manrope, Oswald } from "next/font/google";
 import { fetchSite, siteQueryKey } from "@/entities/site/api/fetch-site";
 import { getQueryClient } from "@/shared/api/query-client";
+import { rootMetadata, venueJsonLd, viewportTheme } from "@/shared/config/seo";
 import { SiteShell } from "./ui/SiteShell";
+import { JsonLd } from "./ui/JsonLd";
 import { Providers } from "./providers/Providers";
 import "./globals.css";
 
@@ -20,25 +22,14 @@ const manrope = Manrope({
   variable: "--font-body",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://svoi.bar"),
-  title: {
-    default: "СВОИ — кальян-бар в Нижнем Новгороде",
-    template: "%s — СВОИ",
-  },
-  description: "Кальян, бар и еда. Место, где можно просто хорошо провести вечер.",
-  openGraph: {
-    title: "СВОИ — кальян-бар в Нижнем Новгороде",
-    description: "Кальян, бар и еда. Место, где можно просто хорошо провести вечер.",
-    locale: "ru_RU",
-    type: "website",
-  },
-};
+export const metadata = rootMetadata;
+
+export const viewport: Viewport = viewportTheme;
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const queryClient = getQueryClient();
   const siteApiUrl = process.env.API_URL_INTERNAL;
-  await queryClient.prefetchQuery({
+  const site = await queryClient.fetchQuery({
     queryKey: siteQueryKey,
     queryFn: () => fetchSite(siteApiUrl),
   });
@@ -46,6 +37,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html lang="ru" className={`${oswald.variable} ${manrope.variable}`}>
       <body>
+        <JsonLd data={venueJsonLd(site.venue)} />
         <Providers>
           <HydrationBoundary state={dehydrate(queryClient)}>
             <SiteShell>{children}</SiteShell>
