@@ -6,14 +6,25 @@ export const siteTitle = "СВОИ — кальян-бар в Нижнем Но�
 export const siteDescription =
   "Кальян, бар и еда. Место, где можно просто хорошо провести вечер.";
 
-const ogImage = {
-  url: "/brand/og.png",
-  secureUrl: `${siteUrl}/brand/og.png`,
-  width: 1200,
-  height: 630,
+const openGraphImage = {
+  url: "/brand/og.jpg",
+  secureUrl: `${siteUrl}/brand/og.jpg`,
+  width: 1024,
+  height: 537,
   alt: siteTitle,
-  type: "image/png",
+  type: "image/jpeg",
 } as const;
+
+const twitterImage = {
+  url: "/brand/x.jpg",
+  secureUrl: `${siteUrl}/brand/x.jpg`,
+  width: 1024,
+  height: 512,
+  alt: siteTitle,
+  type: "image/jpeg",
+} as const;
+
+export const vkImageUrl = `${siteUrl}/brand/vk.jpg`;
 
 export const rootMetadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -79,17 +90,18 @@ export const rootMetadata: Metadata = {
     title: siteTitle,
     description: siteDescription,
     url: siteUrl,
-    images: [ogImage],
+    images: [openGraphImage],
   },
   twitter: {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
-    images: [ogImage],
+    images: [twitterImage],
   },
   other: {
     "geo.region": "RU-NIZ",
     "geo.placename": "Нижний Новгород",
+    "vk:image": vkImageUrl,
   },
 };
 
@@ -123,12 +135,12 @@ export function pageMetadata({
       title: absoluteTitle,
       description,
       url,
-      images: [ogImage],
+      images: [openGraphImage],
     },
     twitter: {
       title: absoluteTitle,
       description,
-      images: [{ ...ogImage, alt: absoluteTitle }],
+      images: [{ ...twitterImage, alt: absoluteTitle }],
     },
   };
 }
@@ -167,7 +179,7 @@ export function venueJsonLd(venue: VenueSeo | null) {
     name,
     description: siteDescription,
     url: siteUrl,
-    image: `${siteUrl}/brand/og.png`,
+    image: `${siteUrl}/brand/og.jpg`,
     logo: `${siteUrl}/brand/icon-512.png`,
     hasMenu: `${siteUrl}/menu`,
     address: {

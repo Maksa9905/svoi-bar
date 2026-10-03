@@ -11,6 +11,8 @@ alwaysApply: true
 
 Фавикон сайта — белая марка на `#090909`, файлы в `public/brand`. Админка использует чёрную марку на белом и закрыта от индексации.
 
+Превью ссылки: `og.jpg` в Open Graph, `x.jpg` в X, квадрат `vk.jpg` в теге `vk:image`.
+
 ```ts
 // ✅ страница сама называет канонический путь
 export const metadata = pageMetadata({ title: "Меню", description, path: "/menu" });

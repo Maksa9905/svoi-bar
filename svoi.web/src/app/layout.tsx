@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { Manrope, Oswald } from "next/font/google";
 import { fetchSite, siteQueryKey } from "@/entities/site/api/fetch-site";
 import { getQueryClient } from "@/shared/api/query-client";
-import { rootMetadata, venueJsonLd, viewportTheme } from "@/shared/config/seo";
+import { rootMetadata, venueJsonLd, viewportTheme, vkImageUrl } from "@/shared/config/seo";
 import { SiteShell } from "./ui/SiteShell";
 import { JsonLd } from "./ui/JsonLd";
 import { Providers } from "./providers/Providers";
@@ -37,6 +37,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html lang="ru" className={`${oswald.variable} ${manrope.variable}`}>
       <body>
+        <meta property="vk:image" content={vkImageUrl} />
         <JsonLd data={venueJsonLd(site.venue)} />
         <Providers>
           <HydrationBoundary state={dehydrate(queryClient)}>
