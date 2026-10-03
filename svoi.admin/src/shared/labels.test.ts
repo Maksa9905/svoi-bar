@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { blockTitle, bookingStatusLabels, sectionTypeLabels } from "./labels";
 import { moveItem } from "./order";
-import { ApiError, errorText } from "./api";
+import { ApiError, errorText, resolveAssetUrl } from "./api";
 
 describe("blockTitle", () => {
   it("берёт заголовок из содержимого блока", () => {
@@ -28,5 +28,22 @@ describe("moveItem", () => {
 describe("errorText", () => {
   it("показывает текст ошибки API", () => {
     expect(errorText(new ApiError("Картинка используется", 409))).toBe("Картинка используется");
+  });
+});
+
+describe("resolveAssetUrl", () => {
+  const api = "https://svoi.hakolr.dev";
+  const site = "https://svoi.hakolr.dev";
+
+  it("собирает адрес файла API и картинки с сайта", () => {
+    expect(resolveAssetUrl("/api/media/1/file", api, site)).toBe(
+      "https://svoi.hakolr.dev/api/media/1/file",
+    );
+    expect(resolveAssetUrl("/images/hero.png", api, site)).toBe(
+      "https://svoi.hakolr.dev/images/hero.png",
+    );
+    expect(resolveAssetUrl("https://s3.regru.cloud/svoi/a.jpg", api, site)).toBe(
+      "https://s3.regru.cloud/svoi/a.jpg",
+    );
   });
 });

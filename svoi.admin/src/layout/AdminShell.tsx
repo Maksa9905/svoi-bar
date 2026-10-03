@@ -3,7 +3,7 @@ import { Drawer, IconButton } from "@mui/material";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { api } from "@/shared/api";
+import { api, siteBase } from "@/shared/api";
 import { session } from "@/shared/session";
 import styles from "./AdminShell.module.css";
 
@@ -19,7 +19,7 @@ const links = [
 
 function Nav({ onNavigate }: { onNavigate?: () => void }) {
   const navigate = useNavigate();
-  const site = import.meta.env.VITE_SITE_URL ?? "http://localhost:3000";
+  const site = siteBase();
 
   return (
     <>

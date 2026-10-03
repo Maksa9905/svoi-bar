@@ -49,7 +49,9 @@ jobs:
           context: svoi.admin
           push: true
           platforms: linux/amd64
-          build-args: VITE_API_URL=https://svoi.hakolr.dev
+          build-args: |
+            VITE_API_URL=https://svoi.hakolr.dev
+            VITE_SITE_URL=https://svoi.hakolr.dev
           tags: |
             ghcr.io/${{ steps.names.outputs.owner }}/svoi-admin:${{ github.sha }}
             ghcr.io/${{ steps.names.outputs.owner }}/svoi-admin:latest
@@ -73,4 +75,5 @@ jobs:
              cd /root/svoi-bar
              git pull --ff-only origin main
              GHCR_OWNER='$GHCR_OWNER' IMAGE_TAG='$IMAGE_TAG' docker compose -f docker-compose.yml -f docker-compose.prod.yml pull
-             GHCR_OWNER='$GHCR_OWNER' IMAGE_TAG='$IMAGE_TAG' docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --no-build"
+             GHCR_OWNER='$GHCR_OWNER' IMAGE_TAG='$IMAGE_TAG' docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --no-build
+             GHCR_OWNER='$GHCR_OWNER' IMAGE_TAG='$IMAGE_TAG' docker compose -f docker-compose.yml -f docker-compose.prod.yml restart nginx"

@@ -10,6 +10,7 @@ NestJS и один PostgreSQL со схемами `content` и `booking`. Кар
 - Секции главной — типизированные блоки из `section.registry.ts`. Новый визуальный тип добавляется туда, не свободным JSON.
 - Меню, галерея и `venue` — отдельные сущности. Витрина главной читает галерею с `showOnHome`.
 - Запись только под `AdminGuard`: `Authorization: Bearer` с access JWT. Логин `POST /api/auth/login`, обновление пары `POST /api/auth/refresh`. Публично: `GET /api/site`, `POST /api/bookings`.
+- Админка открыта с `admin.svoi.hakolr.dev`. CORS в `main.ts` отражает Origin, nginx на `/api/` отдаёт `Access-Control-Allow-Origin` для этого хоста.
 - Удаление секции обнуляет пункт шапки. Удаление media запрещено, пока на него есть ссылка.
 
 ```ts

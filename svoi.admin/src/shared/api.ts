@@ -13,11 +13,24 @@ export function apiBase(): string {
   return import.meta.env.VITE_API_URL ?? "http://localhost:3001";
 }
 
-export function assetUrl(url: string): string {
+export function siteBase(): string {
+  return import.meta.env.VITE_SITE_URL ?? "http://localhost:3000";
+}
+
+export function resolveAssetUrl(url: string, api: string, site: string): string {
+  const apiRoot = api.replace(/\/$/, "");
+  const siteRoot = site.replace(/\/$/, "");
   if (url.startsWith("/api/")) {
-    return `${apiBase()}${url}`;
+    return `${apiRoot}${url}`;
+  }
+  if (url.startsWith("/") && !url.startsWith("//")) {
+    return `${siteRoot}${url}`;
   }
   return url;
+}
+
+export function assetUrl(url: string): string {
+  return resolveAssetUrl(url, apiBase(), siteBase());
 }
 
 export function errorText(error: unknown): string {

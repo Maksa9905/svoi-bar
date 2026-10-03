@@ -22,6 +22,8 @@ services:
     volumes:
       - ./deploy/nginx/docker-entrypoint.sh:/entrypoint.sh:ro
       - ./deploy/nginx/proxy.conf:/etc/nginx/proxy.conf:ro
+      - ./deploy/nginx/cors-map.conf:/etc/nginx/cors-map.conf:ro
+      - ./deploy/nginx/api-cors.conf:/etc/nginx/api-cors.conf:ro
       - ./deploy/nginx/http.conf:/etc/nginx/templates-src/http.conf:ro
       - ./deploy/nginx/https.conf:/etc/nginx/templates-src/https.conf:ro
       - certbot_www:/var/www/certbot:ro
