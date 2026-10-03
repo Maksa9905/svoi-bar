@@ -1,0 +1,24 @@
+services:
+  postgres:
+    ports:
+      - "5433:5432"
+
+  backend:
+    ports:
+      - "3001:3001"
+    environment:
+      RUN_SEED: "true"
+
+  frontend:
+    ports:
+      - "3000:3000"
+    build:
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:3001
+
+  admin:
+    ports:
+      - "5173:80"
+    build:
+      args:
+        VITE_API_URL: http://localhost:3001

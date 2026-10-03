@@ -2,54 +2,55 @@ services:
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_USER: svoi
-      POSTGRES_PASSWORD: svoi
-      POSTGRES_DB: svoi
-    ports:
-      - "5433:5432"
+      POSTGRES_USER: ${POSTGRES_USER:-svoi}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-svoi}
+      POSTGRES_DB: ${POSTGRES_DB:-svoi}
     volumes:
       - svoi_pg:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U svoi -d svoi"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-svoi} -d ${POSTGRES_DB:-svoi}"]
       interval: 5s
       timeout: 5s
       retries: 10
+    restart: unless-stopped
 
   backend:
     build:
       context: ./svoi.back
+    image: ${BACKEND_IMAGE:-svoi-backend:local}
     env_file:
-      - ./svoi.back/.env
+      - path: ./svoi.back/.env
+        required: false
     environment:
-      DATABASE_URL: postgresql://svoi:svoi@postgres:5432/svoi
+      DATABASE_URL: postgresql://${POSTGRES_USER:-svoi}:${POSTGRES_PASSWORD:-svoi}@postgres:5432/${POSTGRES_DB:-svoi}
       PORT: "3001"
-    ports:
-      - "3001:3001"
+      RUN_SEED: ${RUN_SEED:-false}
     depends_on:
       postgres:
         condition: service_healthy
+    restart: unless-stopped
 
   frontend:
     build:
       context: ./svoi.web
       args:
-        NEXT_PUBLIC_API_URL: http://localhost:3001
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001}
+    image: ${FRONTEND_IMAGE:-svoi-frontend:local}
     environment:
       API_URL_INTERNAL: http://backend:3001
-    ports:
-      - "3000:3000"
     depends_on:
       - backend
+    restart: unless-stopped
 
   admin:
     build:
       context: ./svoi.admin
       args:
-        VITE_API_URL: http://localhost:3001
-    ports:
-      - "5173:80"
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:3001}
+    image: ${ADMIN_IMAGE:-svoi-admin:local}
     depends_on:
       - backend
+    restart: unless-stopped
 
 volumes:
   svoi_pg:

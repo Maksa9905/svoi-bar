@@ -7,10 +7,12 @@ CMS кальян-бара «СВОИ»: секции главной, шапка 
 Весь стек — база, API и сайт — поднимается из корня репозитория:
 
 ```bash
-docker compose up --build
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 ```
 
-Сайт: `http://localhost:3000`. API: `http://localhost:3001`. Postgres с хоста: `localhost:5433`.
+Сайт: `http://localhost:3000`. API: `http://localhost:3001`. Админка: `http://localhost:5173`. Postgres с хоста: `localhost:5433`.
+
+Прод (`svoi.hakolr.dev`) поднимается на VPS файлами `docker-compose.yml` и `docker-compose.prod.yml`. Сид там сам не запускается: один раз `docker compose -f docker-compose.yml -f docker-compose.prod.yml exec backend pnpm exec prisma db seed`. Сертификат: `deploy/init-certs.sh`.
 
 Локально, без контейнеров приложения:
 

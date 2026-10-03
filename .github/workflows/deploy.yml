@@ -1,0 +1,75 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: names
+        run: echo "owner=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: svoi.back
+          push: true
+          platforms: linux/amd64
+          tags: |
+            ghcr.io/${{ steps.names.outputs.owner }}/svoi-backend:${{ github.sha }}
+            ghcr.io/${{ steps.names.outputs.owner }}/svoi-backend:latest
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: svoi.web
+          push: true
+          platforms: linux/amd64
+          build-args: NEXT_PUBLIC_API_URL=https://svoi.hakolr.dev
+          tags: |
+            ghcr.io/${{ steps.names.outputs.owner }}/svoi-frontend:${{ github.sha }}
+            ghcr.io/${{ steps.names.outputs.owner }}/svoi-frontend:latest
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: svoi.admin
+          push: true
+          platforms: linux/amd64
+          build-args: VITE_API_URL=https://svoi.hakolr.dev
+          tags: |
+            ghcr.io/${{ steps.names.outputs.owner }}/svoi-admin:${{ github.sha }}
+            ghcr.io/${{ steps.names.outputs.owner }}/svoi-admin:latest
+
+      - name: Restart on VPS
+        env:
+          SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GHCR_OWNER: ${{ steps.names.outputs.owner }}
+          IMAGE_TAG: ${{ github.sha }}
+          GHCR_USER: ${{ github.actor }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy
+          chmod 600 ~/.ssh/deploy
+          ssh -o StrictHostKeyChecking=accept-new -i ~/.ssh/deploy "$VPS_USER@$VPS_HOST" \
+            "set -eu
+             printf '%s' '$GHCR_TOKEN' | docker login ghcr.io -u '$GHCR_USER' --password-stdin
+             cd /root/svoi-bar
+             GHCR_OWNER='$GHCR_OWNER' IMAGE_TAG='$IMAGE_TAG' docker compose -f docker-compose.yml -f docker-compose.prod.yml pull
+             GHCR_OWNER='$GHCR_OWNER' IMAGE_TAG='$IMAGE_TAG' docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --no-build"
