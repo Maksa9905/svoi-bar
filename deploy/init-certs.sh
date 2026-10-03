@@ -3,6 +3,13 @@ set -eu
 
 echo "Перед этим поднимите стек, чтобы nginx слушал 80 порт."
 
+if [ -f .env ]; then
+  set -a
+  # shellcheck disable=SC1091
+  . ./.env
+  set +a
+fi
+
 if [ -z "${CERTBOT_EMAIL:-}" ]; then
   echo "Задайте CERTBOT_EMAIL в .env" >&2
   exit 1
@@ -14,7 +21,6 @@ docker compose -f docker-compose.yml -f docker-compose.prod.yml run --rm --entry
   --agree-tos \
   --no-eff-email \
   -d svoi.hakolr.dev \
-  -d www.svoi.hakolr.dev \
   -d admin.svoi.hakolr.dev
 
 docker compose -f docker-compose.yml -f docker-compose.prod.yml restart nginx
